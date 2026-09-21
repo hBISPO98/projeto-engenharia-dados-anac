@@ -77,7 +77,7 @@ A Arquitetura Medalhão foi adotada para garantir isolamento de responsabilidade
 ### 🔗 Linhagem de Dados no Unity Catalog
 A imagem abaixo demonstra a linhagem automatizada pelo Unity Catalog, mapeando a origem da `obt_voos` a partir das tabelas `dim_aeroporto` e `fato_voos`:
 
-| &nbsp; |
+| Linhagem - voebem.gold.obt_voos |
 | :---: |
 | <img src="https://github.com/user-attachments/assets/ae7878ef-a1bd-4464-a06a-6621a74385fc" /> |
 
@@ -87,7 +87,7 @@ A imagem abaixo demonstra a linhagem automatizada pelo Unity Catalog, mapeando a
 
 A automação do fluxo e a verificação das regras de qualidade foram configuradas utilizando os **Databricks Pipelines**, garantindo o monitoramento contínuo da quarentena e auditoria de dados:
 
-| &nbsp; |
+| Pipeline - voebem-qualidade-silver |
 | :---: |
 | <img src="https://github.com/user-attachments/assets/b62f1c83-4486-4f51-a632-a4f0f939ae28" /> |
 
@@ -97,11 +97,11 @@ A automação do fluxo e a verificação das regras de qualidade foram configura
 
 O **Genie Agent** foi instrumentado com exemplos práticos de consultas SQL pré-definidas e instruções explícitas de contexto para permitir análises em linguagem natural.
 
-| &nbsp; |
+| Exemplos Para Contextualização |
 | :---: |
 | <img src="https://github.com/user-attachments/assets/1a97a291-8fd4-4f0d-946e-29be51804846" /> |
 
-| &nbsp; |
+| Exemplo Prático - Relação entre Atraso na Partida e o Decorrer do Dia |
 | :---: |
 | <img src="https://github.com/user-attachments/assets/e4c6348c-fbf5-496a-a4d3-3fa1e7bdcc17" /> |
 
@@ -112,11 +112,11 @@ O **Genie Agent** foi instrumentado com exemplos práticos de consultas SQL pré
 * **Voos Domésticos:** Taxa de pontualidade de **84,14%** com atraso médio de **5,13 minutos**.
 * **Voos Internacionais:** Taxa de pontualidade de **74,63%** com atraso médio de **19,36 minutos** (quase 4x maior).
 
-| &nbsp; |
+| Prompt + Resolução P1 |
 | :---: |
 | <img src="https://github.com/user-attachments/assets/cafc1f4d-d755-4433-a76e-3a4660228f3f" /> |
 
-| &nbsp; |
+| Resolução P2 |
 | :---: |
 | <img src="https://github.com/user-attachments/assets/a060da4f-77e5-49cb-96d2-bfbb94408a10" /> |
 
@@ -124,11 +124,11 @@ O **Genie Agent** foi instrumentado com exemplos práticos de consultas SQL pré
 * **Madrugada (0h-6h):** Período mais pontual do dia, com pico de **94,08%** às 5h.
 * **Noite (17h-23h):** Pior desempenho, caindo para **73,79%** às 23h devido ao acúmulo de atrasos ao longo da malha aérea.
 
-| &nbsp; |
+| Prompt + Resolução P1 |
 | :---: |
 | <img src="https://github.com/user-attachments/assets/999bedcc-eb08-4bc3-bb76-ca74600b5916" /> |
 
-| &nbsp; |
+| Resolução P2 |
 | :---: |
 | <img src="https://github.com/user-attachments/assets/2c37f659-5e56-4aba-802b-e50e73a93cad" /> |
 
