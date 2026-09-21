@@ -74,6 +74,8 @@ A Arquitetura Medalhão foi adotada para garantir isolamento de responsabilidade
   * **One Big Table (OBT):** Consolidação das tabelas de fatos e dimensões na tabela `voebem.gold.obt_voos`. A OBT elimina a necessidade de `JOINs` complexos, prevenindo alucinações de LLMs ao serem consultadas por Agentes de IA.
   * **Regras de Negócio Padronizadas:** Criação de flags binárias (ex: `partida_pontual` para atrasos $\le 15$ min) para padronizar o cálculo de métricas em qualquer ferramenta de consumo.
 
+---
+
 ### 🧬 Linhagem de Dados no Unity Catalog
 A imagem abaixo demonstra a linhagem automatizada pelo Unity Catalog, mapeando a origem da `obt_voos` a partir das tabelas `dim_aeroporto` e `fato_voos`:
 
