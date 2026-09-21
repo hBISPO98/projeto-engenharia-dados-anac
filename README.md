@@ -51,10 +51,10 @@ A Arquitetura Medalhão foi adotada para garantir isolamento de responsabilidade
 [ Dados Abertos ANAC (CSV) ] ──> 🥉 Bronze (Raw) ──> 🥈 Silver (Tratada) ──> 🥇 Gold (OBT) ──> 🤖 Genie Agent (IA)
 ```
 
-### 1. Ingestão e Camada Bronze (Raw)
+### 1. Ingestão e Camada Bronze
 * **Notebooks:** `03_bronze_vra` e `04_bronze_referencias`.
 * **Descrição:** Carga dos dados brutos exatamente como disponibilizados pela ANAC.
-* **💡 Boas Práticas Aplicadas:**
+ **💡 Boas Práticas Aplicadas:**
   * **Schema-on-Read / Carga Rígida Flexível:** Leitura dos arquivos mantendo colunas como `STRING` para evitar quebras no pipeline caso o schema de origem mude.
   * **Metadados de Auditoria:** Inclusão das colunas `_dh_ingestao` e `_nome_arquivo` para rastreabilidade de origem.
   * **Idempotência:** Gravação em formato Delta Lake com sobreescrita controlada ou merge, garantindo que reexecuções não dupliquem registros.
@@ -62,7 +62,7 @@ A Arquitetura Medalhão foi adotada para garantir isolamento de responsabilidade
 ### 2. Tratamento e Camada Silver (Governança & Qualidade)
 * **Notebooks:** `05_silver_espelho` e `06_silver_qualidade`.
 * **Descrição:** Padronização, limpeza e cálculo de métricas essenciais de negócio.
-* **💡 Boas Práticas Aplicadas:**
+ **💡 Boas Práticas Aplicadas:**
   * **Tipagem Forte:** Conversão explícita de datas para `TIMESTAMP` e valores numéricos para `INT/DOUBLE`.
   * **Auditoria Zero Loss:** Mapeamento e checagem contínua para assegurar que nenhum registro válido seja descartado indevidamente entre a Bronze e a Silver.
   * **Catalogação e Dicionário de Dados:** Adição de descrições ricas em todas as colunas no Unity Catalog para facilitar a governança.
@@ -70,14 +70,15 @@ A Arquitetura Medalhão foi adotada para garantir isolamento de responsabilidade
 ### 3. Modelagem e Camada Gold (Consumo & OBT)
 * **Arquivos:** `09_governanca_gold`, `01_dim_aeroporto.sql`, `02_fato_voos.sql` e `03_obt_voos.sql`.
 * **Descrição:** Estruturação dimensional evoluindo para uma visão única desnormalizada.
-* **💡 Boas Práticas Aplicadas:**
+ **💡 Boas Práticas Aplicadas:**
   * **One Big Table (OBT):** Consolidação das tabelas de fatos e dimensões na tabela `voebem.gold.obt_voos`. A OBT elimina a necessidade de `JOINs` complexos, prevenindo alucinações de LLMs ao serem consultadas por Agentes de IA.
   * **Regras de Negócio Padronizadas:** Criação de flags binárias (ex: `partida_pontual` para atrasos $\le 15$ min) para padronizar o cálculo de métricas em qualquer ferramenta de consumo.
 
 ### 🔗 Linhagem de Dados no Unity Catalog
 A imagem abaixo demonstra a linhagem automatizada pelo Unity Catalog, mapeando a origem da `obt_voos` a partir das tabelas `dim_aeroporto` e `fato_voos`:
 
-![Linhagem Unity Catalog](docs/images/unity-catalog-lineage.png)
+| :---: |
+| <img src="https://github.com/user-attachments/assets/ae7878ef-a1bd-4464-a06a-6621a74385fc" /> |
 
 ---
 
@@ -85,7 +86,8 @@ A imagem abaixo demonstra a linhagem automatizada pelo Unity Catalog, mapeando a
 
 A automação do fluxo e a verificação das regras de qualidade foram configuradas utilizando os **Databricks Pipelines**, garantindo o monitoramento contínuo da quarentena e auditoria de dados:
 
-![Pipeline de Qualidade Silver](docs/images/pipeline-silver-quality.png)
+| :---: |
+| <img src="https://github.com/user-attachments/assets/b62f1c83-4486-4f51-a632-a4f0f939ae28" /> |
 
 ---
 
@@ -93,7 +95,12 @@ A automação do fluxo e a verificação das regras de qualidade foram configura
 
 O **Genie Agent** foi instrumentado com exemplos práticos de consultas SQL pré-definidas e instruções explícitas de contexto para permitir análises em linguagem natural.
 
-![Configuração do Genie Agent](docs/images/genie-agent-examples.png)
+| :---: |
+| <img src="https://github.com/user-attachments/assets/1a97a291-8fd4-4f0d-946e-29be51804846" /> |
+
+| :---: |
+| <img src="https://github.com/user-attachments/assets/e4c6348c-fbf5-496a-a4d3-3fa1e7bdcc17" /> |
+
 
 ### 📈 Insights Extraídos pelo Agente de IA:
 
@@ -101,13 +108,21 @@ O **Genie Agent** foi instrumentado com exemplos práticos de consultas SQL pré
 * **Voos Domésticos:** Taxa de pontualidade de **84,14%** com atraso médio de **5,13 minutos**.
 * **Voos Internacionais:** Taxa de pontualidade de **74,63%** com atraso médio de **19,36 minutos** (quase 4x maior).
 
-![Insight Doméstico vs Internacional](docs/images/insight-domestico-vs-internacional.png)
+| :---: |
+| <img src="https://github.com/user-attachments/assets/cafc1f4d-d755-4433-a76e-3a4660228f3f" /> |
+
+| :---: |
+| <img src="https://github.com/user-attachments/assets/a060da4f-77e5-49cb-96d2-bfbb94408a10" /> |
 
 #### 2. Padrão de Degradado ao Longo do Dia (Efeito Cascata)
 * **Madrugada (0h-6h):** Período mais pontual do dia, com pico de **94,08%** às 5h.
 * **Noite (17h-23h):** Pior desempenho, caindo para **73,79%** às 23h devido ao acúmulo de atrasos ao longo da malha aérea.
 
-![Insight Atraso por Horário](docs/images/insight-atraso-horario.png)
+| :---: |
+| <img src="https://github.com/user-attachments/assets/999bedcc-eb08-4bc3-bb76-ca74600b5916" /> |
+
+| :---: |
+| <img src="https://github.com/user-attachments/assets/2c37f659-5e56-4aba-802b-e50e73a93cad" /> |
 
 ---
 
