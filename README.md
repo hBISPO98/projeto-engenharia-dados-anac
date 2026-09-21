@@ -54,7 +54,7 @@ A Arquitetura Medalhão foi adotada para garantir isolamento de responsabilidade
 ### 1. Ingestão e Camada Bronze
 * **Notebooks:** `03_bronze_vra` e `04_bronze_referencias`.
 * **Descrição:** Carga dos dados brutos exatamente como disponibilizados pela ANAC.
- **💡 Boas Práticas Aplicadas:**
+* **💡 Boas Práticas Aplicadas:**
   * **Schema-on-Read / Carga Rígida Flexível:** Leitura dos arquivos mantendo colunas como `STRING` para evitar quebras no pipeline caso o schema de origem mude.
   * **Metadados de Auditoria:** Inclusão das colunas `_dh_ingestao` e `_nome_arquivo` para rastreabilidade de origem.
   * **Idempotência:** Gravação em formato Delta Lake com sobreescrita controlada ou merge, garantindo que reexecuções não dupliquem registros.
@@ -62,7 +62,7 @@ A Arquitetura Medalhão foi adotada para garantir isolamento de responsabilidade
 ### 2. Tratamento e Camada Silver (Governança & Qualidade)
 * **Notebooks:** `05_silver_espelho` e `06_silver_qualidade`.
 * **Descrição:** Padronização, limpeza e cálculo de métricas essenciais de negócio.
- **💡 Boas Práticas Aplicadas:**
+* **💡 Boas Práticas Aplicadas:**
   * **Tipagem Forte:** Conversão explícita de datas para `TIMESTAMP` e valores numéricos para `INT/DOUBLE`.
   * **Auditoria Zero Loss:** Mapeamento e checagem contínua para assegurar que nenhum registro válido seja descartado indevidamente entre a Bronze e a Silver.
   * **Catalogação e Dicionário de Dados:** Adição de descrições ricas em todas as colunas no Unity Catalog para facilitar a governança.
@@ -70,11 +70,11 @@ A Arquitetura Medalhão foi adotada para garantir isolamento de responsabilidade
 ### 3. Modelagem e Camada Gold (Consumo & OBT)
 * **Arquivos:** `09_governanca_gold`, `01_dim_aeroporto.sql`, `02_fato_voos.sql` e `03_obt_voos.sql`.
 * **Descrição:** Estruturação dimensional evoluindo para uma visão única desnormalizada.
- **💡 Boas Práticas Aplicadas:**
+* **💡 Boas Práticas Aplicadas:**
   * **One Big Table (OBT):** Consolidação das tabelas de fatos e dimensões na tabela `voebem.gold.obt_voos`. A OBT elimina a necessidade de `JOINs` complexos, prevenindo alucinações de LLMs ao serem consultadas por Agentes de IA.
   * **Regras de Negócio Padronizadas:** Criação de flags binárias (ex: `partida_pontual` para atrasos $\le 15$ min) para padronizar o cálculo de métricas em qualquer ferramenta de consumo.
 
-### 🔗 Linhagem de Dados no Unity Catalog
+### 🧬 Linhagem de Dados no Unity Catalog
 A imagem abaixo demonstra a linhagem automatizada pelo Unity Catalog, mapeando a origem da `obt_voos` a partir das tabelas `dim_aeroporto` e `fato_voos`:
 
 | Linhagem - voebem.gold.obt_voos |
